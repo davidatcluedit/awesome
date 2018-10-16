@@ -1,0 +1,14 @@
+{
+  "name": "scratch",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs:build": "vuepress build docs"
+  },
+  "keywords": [],
+  "author": "sg kim <qtudio@gmail.com> (https://github.com/cluedit)",
+  "license": "MIT"
+}
