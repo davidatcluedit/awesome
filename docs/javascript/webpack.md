@@ -19,18 +19,18 @@ webpack 4.20.2를 기준으로 적성되었습니다.
 
 [Webpack](https://webpack.js.org/)으로 [node.js](https://nodejs.org/) 환경에서 제작한 [Web application](https://en.wikipedia.org/wiki/Web_application)을 하나의 번들로 만들어 봅시다!!
 
-기본적인 디렉토리 구조를 정해두고, webpack을 밑바닥부터 시작하겠습니다.
-
-먼저 npm init으로 package.json을 만들고 시작하겠습니다.
+먼저 npm init으로 package.json을 만드는 것부터 시작합니다.
 
 ```bash
 npm init -y
 ```
 
+기본적인 디렉토리 구조를 정해두고, webpack 설정을 시작합니다.
+
 ```dir
 .
 ├── src
-├── dist
+├── build
 │   ├── index.html
 │   ├── webpack.config.js
 └── package.json
@@ -64,6 +64,7 @@ module.exports = {
         rules: [],
     },
     plugins: [],
+    context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -84,6 +85,7 @@ module.exports = {
         rules: [],
     },
     plugins: [],
+    context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -92,12 +94,14 @@ module.exports = {
 webpack이 만드는 bundle을 저장할 디렉토리의 경로와 bundle 파일의 이름을 지정하는 프로퍼티입니다.
 
 ::: tip
-*[path 모듈(module)의 resolve 메소드(method)](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths)를 사용해서 경로를 지정하는 이유는 무엇인가요?*
+*[path 모듈(module)의 resolve, join 메소드(method)](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths)를 사용해서 경로를 지정하는 이유는 무엇인가요?*
 
 경로의 분리자(directory separator)는 os 별로 다를 수 있습니다.
 windows의 경우 \ 로 경로를 구분하지만, linux에서는 / 를 사용하는 것처럼 말입니다.
-따라서, 범용적으로 사용될 수 있는 설정을 만들기 위해서는 [path 모듈(module)의 resolve 메소드(method)](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths)를 사용해
+따라서, 범용적으로 사용될 수 있는 설정을 만들기 위해서는 [path 모듈(module)의 resolve 메소드(method)](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths) 혹은 [path 모듈(module)의 join 메소드(method)](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_join_paths)를 사용해
 경로를 지정해야 합니다.
+
+만약, webpack.config.js의 경로가 package.json과 같은 경로라면, output.path에 path.resolve(__dirname, 'dist')를 사용합니다.
 :::
 
 ::: tip
@@ -114,13 +118,14 @@ module.exports = {
     mode: 'development',
     entry: './src/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist'), // bundle이 생성될 경로를 지정하는 프로퍼티입니다.
+        path: path.join(__dirname, '..', 'dist'), // bundle이 생성될 경로를 지정하는 프로퍼티입니다.
         filename: 'bundle.js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다.
     },
     module: {
         rules: [],
     },
     plugins: [],
+    context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -145,7 +150,7 @@ bundle.js라는 파일 이름도 작성했으니, 이 bundle.js 파일을 불러
 #### module.rules 프로퍼티
 
 [Webpack](https://webpack.js.org/)이 번들링(bundling)할 규칙을 정하는 프로퍼티입니다.
-[Webpack](https://webpack.js.org/)은 Loader를 이용하여 javascript 뿐만 아니라 typescript, CSS나 이미지, 웹폰트, .jsx, .tsx, .vue 심지어 .md이나 .txt 까지 다양한 종류의 파일을 함께 번들링할 수 있습니다.
+[Webpack](https://webpack.js.org/)은 Loader를 이용하여 javascript 뿐만 아니라 typescript, CSS나 이미지, 웹폰트, .jsx, .tsx, .vue 심지어 .md이나 .txt 까지 다양한 종류의 파일을 함께 번들링(bundling)할 수 있습니다.
 
 아래는 src 디렉토리 안의 js, jsx 파일들을 번들링하는 설정 예제입니다.
 
@@ -178,7 +183,7 @@ const path = require('path');
 module.exports = {
     entry: './src/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.join(__dirname, '..', 'dist'),
         filename: 'bundle.js',
     },
     module: {
@@ -193,6 +198,7 @@ module.exports = {
         ],
     },
     plugins: [],
+    context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -204,15 +210,19 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
+                use: 'babel-loader'
+            },
+            {
+                test: /\.(js|jsx)$/,
                 use: {
                     loader: 'babel-loader'
                 }
             },
-                        {
+            {
                 test: /\.(js|jsx)$/,
                 use: ['babel-loader']
             },
-                        {
+            {
                 test: /\.(js|jsx)$/,
                 use: [
                     {
@@ -225,4 +235,51 @@ module.exports = {
 }
 ```
 
-카테고리 다시 정리해야겠다
+.css나, .scss파일을 번들링(bundling)하도록 관련 loader를 설치합니다.
+
+```bash
+npm install style-loader css-loader --save-dev
+```
+
+module의 rules에 .css, .scss에 해당하는 Rule Object들을 추가합니다.
+
+```js{19,20,21,22,23,24,25,26,27,28,29,30,31,32,33}
+// ./build/webpack.config.js
+const path = require('path');
+
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.join(__dirname, '..', 'dist'),
+        filename: 'bundle.js',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    'style-loader', // creates style nodes from JS strings
+                    'css-loader', // translates CSS into CommonJS
+                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
+                ]
+            },
+        ],
+    },
+    plugins: [],
+    context: path.join(__dirname, '..', '/'),
+}
+```
