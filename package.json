@@ -1,7 +1,8 @@
 {
   "name": "scratch",
   "version": "1.0.0",
-  "description": "",
+  "description": "TS Project",
+  "private": true,
   "directories": {
     "doc": "docs"
   },
