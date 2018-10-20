@@ -1,2 +1,12 @@
+# Build temp files
 docs/.vuepress/dist
 node_modules
+
+# JetBrains IDE config
+.idea
+.editorconfig
+
+# VS code IDE config
+\.vscode/settings\.json
+
+\.DS_Store
