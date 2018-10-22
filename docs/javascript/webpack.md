@@ -58,13 +58,13 @@ webpack 4로 넘어오면서, webpack에서 사용하는 바이너리들은 webp
 // ./build/webpack.config.js
 module.exports = {
     mode: 'development', // 'development' 혹은 'production'을 사용할 수 있으며, 'production'인 경우, 자동으로 최적화가 진행됩니다!
-    entry: '',
+    entry: {},
     output: {},
     module: {
         rules: [],
     },
     plugins: [],
-    context: path.join(__dirname, '..', '/'),
+    // context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -75,19 +75,25 @@ module.exports = {
 bundle을 만들기 위한 시작점이 되는 파일의 경로입니다.
 webpack은 이 파일을 시작으로 각 모듈들의 의존성을 파악하고 bundle을 만들게됩니다.
 
-```js{4}
+```js{5}
 // ./build/webpack.config.js
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: {
+        app: './src/index.js',
+    },
     output: {},
     module: {
         rules: [],
     },
     plugins: [],
-    context: path.join(__dirname, '..', '/'),
+    // context: path.join(__dirname, '..', '/'),
 }
 ```
+
+:::tip
+entry: './src/index.js', 처럼 경로를 직접 할당할 수 있지만, entry: { app: './src/index.js', },와 같이 객체 안의 키에 경로를 할당하면, 이 키가 번들의 이름이 되며, 하나의 설정으로 여러 번들을 만들 수 있습니다.
+:::
 
 #### output 프로퍼티
 
@@ -110,22 +116,24 @@ windows의 경우 \ 로 경로를 구분하지만, linux에서는 / 를 사용�
 node.js의 Global Objects 중의 하나이며, [__dirname](https://nodejs.org/docs/latest-v8.x/api/modules.html#modules_dirname)을 부르고 있는 현재 모듈(module)의 경로입니다.
 :::
 
-```js{7,8,9,10}
+```js{9,10,11,12}
 // ./build/webpack.config.js
 const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: {
+        app: './src/index.js',
+    },
     output: {
         path: path.join(__dirname, '..', 'dist'), // bundle이 생성될 경로를 지정하는 프로퍼티입니다.
-        filename: 'bundle.js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다.
+        filename: '[name].[hash].js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다.
     },
     module: {
         rules: [],
     },
     plugins: [],
-    context: path.join(__dirname, '..', '/'),
+    // context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -137,12 +145,11 @@ bundle.js라는 파일 이름도 작성했으니, 이 bundle.js 파일을 불러
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Webpack 시작하기</title>
     </head>
     <body>
-        <script src="/dist/bundle.js"></script>
+        <div id="app"></div>
     </body>
 </html>
 ```
@@ -176,15 +183,32 @@ babel을 사용하기 위해서, .babelrc 파일을 만들도록 하겠습니다
 }
 ```
 
-```js{12,13,14,15,16,17,18}
+```bash
+// webpack으로 chunk를 만들고, import() 메소드를 이용해 비동기로 모듈을 사용하는 경우, 사용하는 plugin입니다.
+npm install --save-dev @babel/plugin-syntax-dynamic-import
+```
+
+```.babelrc
+{
+    "presets": ["@babel/preset-env", "@babel/preset-react"],
+    "plugins": [
+        "@babel/plugin-syntax-dynamic-import"
+    ]
+}
+```
+
+```js{15,16,17,18,19,20,21}
 // ./build/webpack.config.js
 const path = require('path');
 
 module.exports = {
-    entry: './src/index.js',
+    mode: 'development',
+    entry: {
+        app: './src/index.js',
+    },
     output: {
         path: path.join(__dirname, '..', 'dist'),
-        filename: 'bundle.js',
+        filename: '[name].[hash].js',
     },
     module: {
         rules: [
@@ -198,7 +222,7 @@ module.exports = {
         ],
     },
     plugins: [],
-    context: path.join(__dirname, '..', '/'),
+    // context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -243,15 +267,18 @@ npm install style-loader css-loader --save-dev
 
 module의 rules에 .css, .scss에 해당하는 Rule Object들을 추가합니다.
 
-```js{19,20,21,22,23,24,25,26,27,28,29,30,31,32,33}
+```js{22,23,24,25,26,27,28,29,30,31,32,33,34,35,36}
 // ./build/webpack.config.js
 const path = require('path');
 
 module.exports = {
-    entry: './src/index.js',
+    mode: 'development',
+    entry: {
+        app: './src/index.js',
+    },
     output: {
         path: path.join(__dirname, '..', 'dist'),
-        filename: 'bundle.js',
+        filename: '[name].[hash].js',
     },
     module: {
         rules: [
@@ -280,6 +307,170 @@ module.exports = {
         ],
     },
     plugins: [],
-    context: path.join(__dirname, '..', '/'),
+    // context: path.join(__dirname, '..', '/'),
 }
 ```
+
+#### plugins 프로퍼티
+
+##### html-webpack-plugin
+
+html-webpack-plugin으로 webpack으로 만들어진 번들을 넣을 index.html을 쉽게 작성할 수 있습니다.
+
+```bash
+npm install --save-dev html-webpack-plugin
+```
+
+```js{41,42,43,44,45}
+// ./build/webpack.config.js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    mode: 'development',
+    entry: {
+        app: './src/index.js',
+    },
+    output: {
+        path: path.join(__dirname, '..', 'dist'),
+        filename: '[name].[hash].js',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    'style-loader', // creates style nodes from JS strings
+                    'css-loader', // translates CSS into CommonJS
+                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
+                ]
+            },
+        ],
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './build/index.html', // 위에서 작성했던 index.html의 경로입니다.
+            viewport: 'width=device-width, initial-scale=1.0', // 이 html의 viewport.
+            chunks: ['app'], // html 안에 <script type="text/javascript" src="app 번들의 경로"></script>를 추가하기 위한 옵션입니다.
+        }),
+    ],
+    // context: path.join(__dirname, '..', '/'),
+}
+```
+
+#### devtool 프로퍼티
+
+에러 디버깅을 위해서, devtool을 설정합니다. webpack-dev-server 옵션도 설정하도록 하겠습니다.
+
+```js{6}
+// ./build/webpack.config.js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    devtool: 'cheap-module-source-map',
+    devServer: {
+        port: 8080,
+        historyApiFallback: true, // index (/) 가 아닌 경로로 직접 접근할 수 있도록 true 값으로 설정합니다.
+    },
+    entry: {
+        app: './src/index.js',
+    },
+    output: {
+        path: path.join(__dirname, '..', 'dist'),
+        filename: '[name].[hash].js',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    'style-loader', // creates style nodes from JS strings
+                    'css-loader', // translates CSS into CommonJS
+                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
+                ]
+            },
+        ],
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './build/index.html',
+            viewport: 'width=device-width, initial-scale=1.0',
+            chunks: ['app'],
+        }),
+    ],
+    // context: path.join(__dirname, '..', '/'),
+}
+```
+
+마지막으로 package.json에 scripts를 만듭니다.
+```json
+// ./package.json
+{
+  ...
+  "scripts": {
+    "dev": "webpack-dev-server --hot --config ./build/webpack.config.js",
+    "build": "webpack --config ./build/webpack.config.js"
+  },
+  ...
+}
+
+```
+
+기본적인 webpack 설정은 여기까지입니다.
+
+아래는 react를 활용한 index.js 예제입니다.
+
+```js
+// ./src/index.js
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+
+class App extends Component {
+    render() {
+        return <p>Hello, World!</p>;
+    }
+}
+render(<App />, document.getElementById('app'));
+```
+
+```bash
+npm run dev
+npm run build
+```
+
+## Production에서 [Webpack](https://webpack.js.org/) 활용하기
+
+### webpack.config.base.js, webpack.config.dev.js, webpack.config.prod.js
+
+## Webpack과 SPA 그리고 SSR
+
+## SourceMap 자세히 알아보기
