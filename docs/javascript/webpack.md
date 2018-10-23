@@ -19,21 +19,29 @@ webpack 4.20.2를 기준으로 적성되었습니다.
 
 [Webpack](https://webpack.js.org/)으로 [node.js](https://nodejs.org/) 환경에서 제작한 [Web application](https://en.wikipedia.org/wiki/Web_application)을 하나의 번들로 만들어 봅시다!!
 
-먼저 npm init으로 package.json을 만드는 것부터 시작합니다.
+먼저 프로젝트 디렉토리를 만드는 것부터 시작합니다.
+```bash
+mkdir webpack-example
+cd webapck-example
+
+```
+npm init 명령으로 으로 package.json 파일을 생성합니다.
 
 ```bash
 npm init -y
 ```
 
-기본적인 디렉토리 구조를 정해두고, webpack 설정을 시작합니다.
+이번 예제의 디렉토리 전체 구조는 아래와 같은 모양으로 이루어질 예정이므로 참고 바랍니다.
 
 ```dir
 .
 ├── src
+│   ├── index.js
 ├── build
 │   ├── index.html
 │   ├── webpack.config.js
 └── package.json
+└── .babelrc
 ```
 
 ### [Webpack](https://webpack.js.org/) 설치하기
@@ -127,7 +135,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '..', 'dist'), // bundle이 생성될 경로를 지정하는 프로퍼티입니다.
-        filename: '[name].[hash].js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다.
+        filename: '[name].[hash].js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다. (우리 예제에서는 bundle.js 라는 이름으로 사용합니다.)
     },
     module: {
         rules: [],
@@ -137,7 +145,7 @@ module.exports = {
 }
 ```
 
-bundle.js라는 파일 이름도 작성했으니, 이 bundle.js 파일을 불러줄 html 파일을 만들도록 하겠습니다.
+bundle.js 라는 파일 이름도 작성했으니, 이 bundle.js 파일을 불러줄 html 파일을 만들도록 하겠습니다.
 
 ```html
 <!-- ./build/index.html -->
@@ -262,7 +270,7 @@ module.exports = {
 .css나, .scss파일을 번들링(bundling)하도록 관련 loader를 설치합니다.
 
 ```bash
-npm install style-loader css-loader --save-dev
+npm install --save-dev style-loader css-loader
 ```
 
 module의 rules에 .css, .scss에 해당하는 Rule Object들을 추가합니다.
