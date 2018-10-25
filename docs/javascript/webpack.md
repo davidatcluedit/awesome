@@ -23,9 +23,8 @@ webpack 4.20.2를 기준으로 적성되었습니다.
 ```bash
 mkdir webpack-example
 cd webapck-example
-
 ```
-npm init 명령으로 으로 package.json 파일을 생성합니다.
+npm init 명령으로 package.json 파일을 생성합니다.
 
 ```bash
 npm init -y
@@ -51,6 +50,8 @@ npm init -y
 
 ```bash
 npm install --save-dev webpack webpack-cli webpack-dev-server
+  or
+npm i -D webpack webpack-cli webpack-dev-server
 ```
 
 ::: warning
