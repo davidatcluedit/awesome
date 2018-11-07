@@ -35,11 +35,11 @@ npm init -y
 ```dir
 .
 ├── src
-│   ├── index.js
+│   └── index.js
 ├── build
 │   ├── index.html
-│   ├── webpack.config.js
-└── package.json
+│   └── webpack.config.js
+├── package.json
 └── .babelrc
 ```
 
@@ -50,7 +50,7 @@ npm init -y
 
 ```bash
 npm install --save-dev webpack webpack-cli webpack-dev-server
-  or
+# or
 npm i -D webpack webpack-cli webpack-dev-server
 ```
 
@@ -136,7 +136,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '..', 'dist'), // bundle이 생성될 경로를 지정하는 프로퍼티입니다.
-        filename: '[name].[hash].js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다. (우리 예제에서는 bundle.js 라는 이름으로 사용합니다.)
+        filename: '[name].[hash].js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다.
     },
     module: {
         rules: [],
@@ -146,7 +146,11 @@ module.exports = {
 }
 ```
 
-bundle.js 라는 파일 이름도 작성했으니, 이 bundle.js 파일을 불러줄 html 파일을 만들도록 하겠습니다.
+::: tip
+*[hash]와 [chunkhash]의 차이가 무엇인가요?*
+:::
+
+이제 번들링한 파일들을 불러줄 html 파일을 만들도록 하겠습니다.
 
 ```html
 <!-- ./build/index.html -->
@@ -172,7 +176,7 @@ bundle.js 라는 파일 이름도 작성했으니, 이 bundle.js 파일을 불�
 
 ```bash
 npm install --save-dev babel-loader @babel/core @babel/preset-env
-// 현재 번들링을 진행할 소스가 React에 의존성을 가지고 있다면 아래의 babel preset도 함께 설치해주세요.
+# 현재 번들링을 진행할 소스가 React에 의존성을 가지고 있다면 아래의 babel preset도 함께 설치해주세요.
 npm install --save-dev @babel/preset-react
 ```
 
@@ -193,7 +197,7 @@ babel을 사용하기 위해서, .babelrc 파일을 만들도록 하겠습니다
 ```
 
 ```bash
-// webpack으로 chunk를 만들고, import() 메소드를 이용해 비동기로 모듈을 사용하는 경우, 사용하는 plugin입니다.
+# webpack으로 chunk를 만들고, import() 메소드를 이용해 비동기로 모듈을 사용하는 경우, 사용하는 plugin입니다.
 npm install --save-dev @babel/plugin-syntax-dynamic-import
 ```
 
@@ -478,8 +482,102 @@ npm run build
 
 ## Production에서 [Webpack](https://webpack.js.org/) 활용하기
 
-### webpack.config.base.js, webpack.config.dev.js, webpack.config.prod.js
+지금부터는 실제 production에서 활용하기 위한 webpack 설정을 해봅시다.
+
+### webpack.config.[env].js
+
+개발환경에서는 빌드 속도보다 디버깅이 중요할 수 있고, production에서는 디버깅보다 빌드 속도가 중요할 수 있습니다. production에서는 js나 css를 minify해 더 가볍게 만들어 사용자들이 좀 더 빠르게 웹페이지를 볼 수 있도록 도와줄 수도 있습니다. 지금부터 각 환경에 맞는 webpack.config.js를 만들어봅시다.
+
+```dir
+.
+├── src
+│   └── index.js
+├── build
+│   ├── index.html
+│   ├── webpack.config.base.js - dev와 prod가 함께 공유할 웹팩 설정입니다.
+│   ├── webpack.config.dev.js - 개발환경에서 활용할 웹팩 설정입니다.
+│   └── webpack.config.prod.js - 배포에서 활용할 웹팩 설정입니다.
+├── package.json
+└── .babelrc
+```
+
+간단하게 두 환경에서 공유하는 웹팩 설정 object는 webpack.config.base.js에 작성해 export하고,
+나머지 webpack.config.dev.js와 webpack.config.prod.js에서 import한 후, 내부에서 작성한 웹팩 설정 object와 merge한 뒤에 다시 export하도록 작성하면 각 환경에서 쓸 수 있는 웹팩 설정이 준비됩니다.
+
+```js
+// ./build/webpack.config.base.js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    entry: {
+        app: './src/index.js',
+    },
+    output: {
+        path: path.join(__dirname, '..', 'dist'),
+        filename: '[name].[hash].js',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    'style-loader', // creates style nodes from JS strings
+                    'css-loader', // translates CSS into CommonJS
+                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
+                ]
+            },
+        ],
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './build/index.html',
+            viewport: 'width=device-width, initial-scale=1.0',
+            chunks: ['app'],
+        }),
+    ],
+    // context: path.join(__dirname, '..', '/'),
+}
+```
+
+```js
+// ./build/webpack.config.dev.js
+const webpackConfigBase = require('./webpack.config.base');
+module.exports = {
+    ...webpackConfigBase,
+    devtool: 'cheap-module-source-map',
+    devServer: {
+        port: 8080,
+        historyApiFallback: true, // index (/) 가 아닌 경로로 직접 접근할 수 있도록 true 값으로 설정합니다.
+    },
+}
+```
+
+```js
+// ./build/webpack.config.prod.js
+const webpackConfigBase = require('./webpack.config.base');
+module.exports = {
+    ...webpackConfigBase,
+    devtool: 'cheap-module-source-map',
+}
+```
 
 ## Webpack과 SPA 그리고 SSR
+
+이제 Javascript만으로 웹 어플리케이션을 제작하는 것이 굉장히 보편화되었고,
 
 ## SourceMap 자세히 알아보기
