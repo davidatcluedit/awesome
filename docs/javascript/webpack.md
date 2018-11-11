@@ -20,10 +20,12 @@ webpack 4.20.2를 기준으로 적성되었습니다.
 [Webpack](https://webpack.js.org/)으로 [node.js](https://nodejs.org/) 환경에서 제작한 [Web application](https://en.wikipedia.org/wiki/Web_application)을 하나의 번들로 만들어 봅시다!!
 
 먼저 프로젝트 디렉토리를 만드는 것부터 시작합니다.
+
 ```bash
 mkdir webpack-example
 cd webapck-example
 ```
+
 npm init 명령으로 package.json 파일을 생성합니다.
 
 ```bash
@@ -480,6 +482,7 @@ module.exports = {
 ```
 
 마지막으로 package.json에 scripts를 만듭니다.
+
 ```json
 // ./package.json
 {
