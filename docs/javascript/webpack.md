@@ -66,14 +66,14 @@ webpack 4로 넘어오면서, webpack에서 사용하는 바이너리들은 webp
 ```js{3}
 // ./build/webpack.config.js
 module.exports = {
-    mode: 'development', // 'development' 혹은 'production'을 사용할 수 있으며, 'production'인 경우, 자동으로 최적화가 진행됩니다!
-    entry: {},
-    output: {},
-    module: {
-        rules: [],
-    },
-    plugins: [],
-    // context: path.join(__dirname, '..', '/'),
+  mode: 'development', // 'development' 혹은 'production'을 사용할 수 있으며, 'production'인 경우, 자동으로 최적화가 진행됩니다!
+  entry: {},
+  output: {},
+  module: {
+    rules: [],
+  },
+  plugins: [],
+  // context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -87,16 +87,16 @@ webpack은 이 파일을 시작으로 각 모듈들의 의존성을 파악하고
 ```js{5}
 // ./build/webpack.config.js
 module.exports = {
-    mode: 'development',
-    entry: {
-        app: './src/index.js',
-    },
-    output: {},
-    module: {
-        rules: [],
-    },
-    plugins: [],
-    // context: path.join(__dirname, '..', '/'),
+  mode: 'development',
+  entry: {
+    app: './src/index.js',
+  },
+  output: {},
+  module: {
+    rules: [],
+  },
+  plugins: [],
+  // context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -127,22 +127,22 @@ node.js의 Global Objects 중의 하나이며, [__dirname](https://nodejs.org/do
 
 ```js{9,10,11,12}
 // ./build/webpack.config.js
-const path = require('path');
+const path = require('path')
 
 module.exports = {
-    mode: 'development',
-    entry: {
-        app: './src/index.js',
-    },
-    output: {
-        path: path.join(__dirname, '..', 'dist'), // bundle이 생성될 경로를 지정하는 프로퍼티입니다.
-        filename: '[name].[hash].js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다.
-    },
-    module: {
-        rules: [],
-    },
-    plugins: [],
-    // context: path.join(__dirname, '..', '/'),
+  mode: 'development',
+  entry: {
+    app: './src/index.js',
+  },
+  output: {
+    path: path.join(__dirname, '..', 'dist'), // bundle이 생성될 경로를 지정하는 프로퍼티입니다.
+    filename: '[name].[hash].js', // 생성될 bundle의 파일 이름을 정해주는 프로퍼티입니다.
+  },
+  module: {
+    rules: [],
+  },
+  plugins: [],
+  // context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -156,14 +156,14 @@ module.exports = {
 <!-- ./build/index.html -->
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Webpack 시작하기</title>
-    </head>
-    <body>
-        <div id="app"></div>
-    </body>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= htmlWebpackPlugin.options.title %></title> <!-- tip 작성 필요 -->
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
 </html>
 ```
 
@@ -184,7 +184,7 @@ babel을 사용하기 위해서, .babelrc 파일을 만들도록 하겠습니다
 
 ```.babelrc
 {
-    "presets": ["@babel/preset-env"]
+  "presets": ["@babel/preset-env"]
 }
 ```
 
@@ -192,7 +192,7 @@ babel을 사용하기 위해서, .babelrc 파일을 만들도록 하겠습니다
 
 ```.babelrc
 {
-    "presets": ["@babel/preset-env", "@babel/preset-react"]
+  "presets": ["@babel/preset-env", "@babel/preset-react"]
 }
 ```
 
@@ -203,37 +203,67 @@ npm install --save-dev @babel/plugin-syntax-dynamic-import
 
 ```.babelrc
 {
-    "presets": ["@babel/preset-env", "@babel/preset-react"],
-    "plugins": [
-        "@babel/plugin-syntax-dynamic-import"
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import"
+  ]
+}
+```
+
+decorator나 async / await 키워드를 사용하려면 아래 커맨드를 입력해 필요한 바벨 플러그인을 설치하고,
+
+```bash
+npm install --save-dev @babel/plugin-transform-async-to-generator
+npm install --save-dev @babel/plugin-proposal-class-properties
+npm install --save-dev @babel/plugin-proposal-decorators
+```
+
+다음과 같이 .babelrc를 작성해줍니다.
+
+```.babelrc
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-async-to-generator",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
     ]
+  ]
 }
 ```
 
 ```js{15,16,17,18,19,20,21}
 // ./build/webpack.config.js
-const path = require('path');
+const path = require('path')
 
 module.exports = {
-    mode: 'development',
-    entry: {
-        app: './src/index.js',
-    },
-    output: {
-        path: path.join(__dirname, '..', 'dist'),
-        filename: '[name].[hash].js',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/, // node_modules 내부의 모듈들은 번들링에서 제외하기 위한 옵션입니다.
-                use: {
-                    loader: 'babel-loader'
-                }
-            }
-        ],
-    },
+  mode: 'development',
+  entry: {
+    app: './src/index.js',
+  },
+  output: {
+    path: path.join(__dirname, '..', 'dist'),
+    filename: '[name].[hash].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/, // node_modules 내부의 모듈들은 번들링에서 제외하기 위한 옵션입니다.
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ],
+  },
     plugins: [],
     // context: path.join(__dirname, '..', '/'),
 }
@@ -243,32 +273,32 @@ Rule Object의 use 프로퍼티는 아래와 같이 다양한 방법으로 작�
 
 ```js
 module.exports = {
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                use: 'babel-loader'
-            },
-            {
-                test: /\.(js|jsx)$/,
-                use: {
-                    loader: 'babel-loader'
-                }
-            },
-            {
-                test: /\.(js|jsx)$/,
-                use: ['babel-loader']
-            },
-            {
-                test: /\.(js|jsx)$/,
-                use: [
-                    {
-                        loader: 'babel-loader'
-                    }
-                ],
-            },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader'
+      },
+      {
+        test: /\.(js|jsx)$/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.(js|jsx)$/,
+        use: ['babel-loader']
+      },
+      {
+        test: /\.(js|jsx)$/,
+        use: [
+          {
+            loader: 'babel-loader'
+          }
         ],
-    },
+      },
+    ],
+  },
 }
 ```
 
@@ -282,45 +312,45 @@ module의 rules에 .css, .scss에 해당하는 Rule Object들을 추가합니다
 
 ```js{22,23,24,25,26,27,28,29,30,31,32,33,34,35,36}
 // ./build/webpack.config.js
-const path = require('path');
+const path = require('path')
 
 module.exports = {
-    mode: 'development',
-    entry: {
-        app: './src/index.js',
-    },
-    output: {
-        path: path.join(__dirname, '..', 'dist'),
-        filename: '[name].[hash].js',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                ]
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader', // creates style nodes from JS strings
-                    'css-loader', // translates CSS into CommonJS
-                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
-                ]
-            },
-        ],
-    },
-    plugins: [],
-    // context: path.join(__dirname, '..', '/'),
+  mode: 'development',
+  entry: {
+    app: './src/index.js',
+  },
+  output: {
+    path: path.join(__dirname, '..', 'dist'),
+    filename: '[name].[hash].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader', // creates style nodes from JS strings
+          'css-loader', // translates CSS into CommonJS
+          'sass-loader', // compiles Sass to CSS, using Node Sass by default
+        ]
+      },
+    ],
+  },
+  plugins: [],
+  // context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -334,54 +364,57 @@ html-webpack-plugin으로 webpack으로 만들어진 번들을 넣을 index.html
 npm install --save-dev html-webpack-plugin
 ```
 
-```js{41,42,43,44,45}
+```js{41,42,43,44,45,46,47,48}
 // ./build/webpack.config.js
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    mode: 'development',
-    entry: {
-        app: './src/index.js',
-    },
-    output: {
-        path: path.join(__dirname, '..', 'dist'),
-        filename: '[name].[hash].js',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                ]
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader', // creates style nodes from JS strings
-                    'css-loader', // translates CSS into CommonJS
-                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
-                ]
-            },
-        ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './build/index.html', // 위에서 작성했던 index.html의 경로입니다.
-            viewport: 'width=device-width, initial-scale=1.0', // 이 html의 viewport.
-            chunks: ['app'], // html 안에 <script type="text/javascript" src="app 번들의 경로"></script>를 추가하기 위한 옵션입니다.
-        }),
+  mode: 'development',
+  entry: {
+    app: './src/index.js',
+  },
+  output: {
+    path: path.join(__dirname, '..', 'dist'),
+    filename: '[name].[hash].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader', // creates style nodes from JS strings
+          'css-loader', // translates CSS into CommonJS
+          'sass-loader', // compiles Sass to CSS, using Node Sass by default
+        ]
+      },
     ],
-    // context: path.join(__dirname, '..', '/'),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'webpack-example', // index.html <title></title> 태그에 넣어줄 텍스트를 입력합니다.
+      template: './build/index.html', // 위에서 작성했던 index.html의 경로입니다.
+      meta: {
+        viewport: 'width=device-width, initial-scale=1.0', // 이 html의 viewport.
+      },
+      chunks: ['app'], // html 안에 <script type="text/javascript" src="app 번들의 경로"></script>를 추가하기 위한 옵션입니다.
+    }),
+  ],
+  // context: path.join(__dirname, '..', '/'),
 }
 ```
 
@@ -391,55 +424,57 @@ module.exports = {
 
 ```js{6}
 // ./build/webpack.config.js
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    devtool: 'cheap-module-source-map',
-    devServer: {
-        port: 8080,
-        historyApiFallback: true, // index (/) 가 아닌 경로로 직접 접근할 수 있도록 true 값으로 설정합니다.
-    },
-    entry: {
-        app: './src/index.js',
-    },
-    output: {
-        path: path.join(__dirname, '..', 'dist'),
-        filename: '[name].[hash].js',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                ]
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader', // creates style nodes from JS strings
-                    'css-loader', // translates CSS into CommonJS
-                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
-                ]
-            },
-        ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './build/index.html',
-            viewport: 'width=device-width, initial-scale=1.0',
-            chunks: ['app'],
-        }),
+  devtool: 'cheap-module-source-map',
+  devServer: {
+    port: 8080,
+    historyApiFallback: true, // index (/) 가 아닌 경로로 직접 접근할 수 있도록 true 값으로 설정합니다.
+  },
+  entry: {
+    app: './src/index.js',
+  },
+  output: {
+    path: path.join(__dirname, '..', 'dist'),
+    filename: '[name].[hash].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader', // creates style nodes from JS strings
+          'css-loader', // translates CSS into CommonJS
+          'sass-loader', // compiles Sass to CSS, using Node Sass by default
+        ]
+      },
     ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './build/index.html',
+      meta: {
+        viewport: 'width=device-width, initial-scale=1.0',
+      },
+      chunks: ['app'],
+    }),
+  ],
     // context: path.join(__dirname, '..', '/'),
 }
 ```
@@ -464,15 +499,15 @@ module.exports = {
 
 ```js
 // ./src/index.js
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React, { Component } from 'react'
+import { render } from 'react-dom'
 
 class App extends Component {
-    render() {
-        return <p>Hello, World!</p>;
-    }
+  render() {
+    return <p>Hello, World!</p>
+  }
 }
-render(<App />, document.getElementById('app'));
+render(<App />, document.getElementById('app'))
 ```
 
 ```bash
@@ -506,59 +541,63 @@ npm run build
 
 ```js
 // ./build/webpack.config.base.js
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    entry: {
-        app: './src/index.js',
-    },
-    output: {
-        path: path.join(__dirname, '..', 'dist'),
-        filename: '[name].[hash].js',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                ]
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader', // creates style nodes from JS strings
-                    'css-loader', // translates CSS into CommonJS
-                    'sass-loader', // compiles Sass to CSS, using Node Sass by default
-                ]
-            },
-        ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './build/index.html',
-            viewport: 'width=device-width, initial-scale=1.0',
-            chunks: ['app'],
-        }),
-    ],
-    // context: path.join(__dirname, '..', '/'),
+  entry: {
+    app: './src/index.js',
+  },
+  output: {
+    path: path.join(__dirname, '..', 'dist'),
+    filename: '[name].[hash].js',
+  },
+  module: {
+      rules: [
+          {
+              test: /\.(js|jsx)$/,
+              exclude: /node_modules/,
+              use: {
+                  loader: 'babel-loader',
+              },
+          },
+          {
+              test: /\.css$/,
+              use: [
+                  'style-loader',
+                  'css-loader',
+              ]
+          },
+          {
+              test: /\.scss$/,
+              use: [
+                  'style-loader', // creates style nodes from JS strings
+                  'css-loader', // translates CSS into CommonJS
+                  'sass-loader', // compiles Sass to CSS, using Node Sass by default
+              ]
+          },
+      ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'webpack-example',
+      template: './build/index.html',
+      meta: {
+        viewport: 'width=device-width, initial-scale=1.0',
+      },
+      chunks: ['app'],
+    }),
+  ],
+  // context: path.join(__dirname, '..', '/'),
 }
 ```
 
 ```js
 // ./build/webpack.config.dev.js
-const webpackConfigBase = require('./webpack.config.base');
+const webpackConfigBase = require('./webpack.config.base')
 module.exports = {
     ...webpackConfigBase,
+    mode: 'development',
     devtool: 'cheap-module-source-map',
     devServer: {
         port: 8080,
@@ -569,10 +608,11 @@ module.exports = {
 
 ```js
 // ./build/webpack.config.prod.js
-const webpackConfigBase = require('./webpack.config.base');
+const webpackConfigBase = require('./webpack.config.base')
 module.exports = {
-    ...webpackConfigBase,
-    devtool: 'cheap-module-source-map',
+  ...webpackConfigBase,
+  mode: 'production',
+  devtool: false,
 }
 ```
 
