@@ -49,7 +49,7 @@ $ eslint --init
 ? Which style guide do you want to follow? Airbnb (https://github.com/airbnb/javascript)
 ? Do you use React? Yes
 ? What format do you want your config file to be in? (Use arrow keys)
-❯ JavaScript # 사실, 어떠한 형식으로 설정파일을 저장하는 것은 중요하지 않습니다. 아래 예제에서는 .eslintrc로 사용하도록 하겠습니다.
+❯ JavaScript # 사실, 어떠한 형식으로 설정파일을 저장하는 것은 중요하지 않습니다. 아래 예제에서는 .eslintrc.js로 사용하도록 하겠습니다.
   YAML
   JSON
 
@@ -60,16 +60,17 @@ eslint-config-airbnb@latest eslint@^4.19.1 || ^5.3.0 eslint-plugin-import@^2.14.
 필요한 모든 eslint plugin을 설치했으니, 이제 마지막으로 설정을 작성하겠습니다.
 
 ```js
+// .eslintrc.js
 module.exports = {
   "extends": [
-    "airbnb",
-    "prettier"
+    "airbnb", // Airbnb style guide를 상속 받습니다.
+    "prettier" // Prettier style guide를 상속 받습니다.
   ],
   "parser": "babel-eslint",
   "plugins": ["jest"],
   "env": {
-    "browser": true,
-    "jest/globals": true
+    "browser": true, // window나, document등의 객체를 eslint가 인식할 수 있도록 환경을 설정합니다.
+    "jest/globals": true // jest를 활용한 테스트 코드에서 각종 jest global variable들을 eslint가 인식할 수 있도록 도와주는 설정입니다.
   },
   "rules": {
     "indent": ["error", 2],

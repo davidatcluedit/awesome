@@ -339,7 +339,7 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-        ]
+        ],
       },
       {
         test: /\.scss$/,
@@ -347,7 +347,7 @@ module.exports = {
           'style-loader', // creates style nodes from JS strings
           'css-loader', // translates CSS into CommonJS
           'sass-loader', // compiles Sass to CSS, using Node Sass by default
-        ]
+        ],
       },
     ],
   },
@@ -394,7 +394,7 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-        ]
+        ],
       },
       {
         test: /\.scss$/,
@@ -402,7 +402,7 @@ module.exports = {
           'style-loader', // creates style nodes from JS strings
           'css-loader', // translates CSS into CommonJS
           'sass-loader', // compiles Sass to CSS, using Node Sass by default
-        ]
+        ],
       },
     ],
   },
@@ -456,7 +456,7 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-        ]
+        ],
       },
       {
         test: /\.scss$/,
@@ -464,7 +464,7 @@ module.exports = {
           'style-loader', // creates style nodes from JS strings
           'css-loader', // translates CSS into CommonJS
           'sass-loader', // compiles Sass to CSS, using Node Sass by default
-        ]
+        ],
       },
     ],
   },
@@ -556,30 +556,30 @@ module.exports = {
     filename: '[name].[hash].js',
   },
   module: {
-      rules: [
-          {
-              test: /\.(js|jsx)$/,
-              exclude: /node_modules/,
-              use: {
-                  loader: 'babel-loader',
-              },
-          },
-          {
-              test: /\.css$/,
-              use: [
-                  'style-loader',
-                  'css-loader',
-              ]
-          },
-          {
-              test: /\.scss$/,
-              use: [
-                  'style-loader', // creates style nodes from JS strings
-                  'css-loader', // translates CSS into CommonJS
-                  'sass-loader', // compiles Sass to CSS, using Node Sass by default
-              ]
-          },
-      ],
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader', // creates style nodes from JS strings
+          'css-loader', // translates CSS into CommonJS
+          'sass-loader', // compiles Sass to CSS, using Node Sass by default
+        ],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -599,13 +599,13 @@ module.exports = {
 // ./build/webpack.config.dev.js
 const webpackConfigBase = require('./webpack.config.base')
 module.exports = {
-    ...webpackConfigBase,
-    mode: 'development',
-    devtool: 'cheap-module-source-map',
-    devServer: {
-        port: 8080,
-        historyApiFallback: true, // index (/) 가 아닌 경로로 직접 접근할 수 있도록 true 값으로 설정합니다.
-    },
+  ...webpackConfigBase,
+  mode: 'development',
+  devtool: 'cheap-module-source-map',
+  devServer: {
+    port: 8080,
+    historyApiFallback: true, // index (/) 가 아닌 경로로 직접 접근할 수 있도록 true 값으로 설정합니다.
+  },
 }
 ```
 
