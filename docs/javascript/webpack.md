@@ -1,7 +1,7 @@
 # Webpack
 
 ::: warning
-webpack 4.20.2를 기준으로 적성되었습니다.
+webpack 4.20.2를 기준으로 작성되었습니다.
 :::
 
 ## [Webpack](https://webpack.js.org/)이란 무엇인가요
