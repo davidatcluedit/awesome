@@ -299,7 +299,7 @@ this.items.map(x => this.doSomethingWith(x));
 
 ```js
 const arr = ['one!', 'two!', 'three!', 'four!'];
-const [one, two, ...rest] = arr; // 배열을 비구조화 전개 연산자를 이용해, 나머지 요소를 배열로 합칠 수 있습니다.
+const [one, two, ...rest] = arr; // 배열을 비구조화할 때 전개 연산자를 이용해, 나머지 요소를 배열로 합칠 수 있습니다.
 
 const obj = { a: 'x', b: 'y', c: 'z'};
 const { a, b, c } = obj;
@@ -374,13 +374,13 @@ console.log(animals.catTheAnimal); // true
 
 ### Classes
 
+### Static Class Properties
+
 ### Promise
 
 ### Generator
 
 ## ECMA-262 2016 (ES 7)
-
-### Static Class Properties
 
 ### Class Instance Properties
 
@@ -388,8 +388,6 @@ console.log(animals.catTheAnimal); // true
 
 ### Object Spread
 
-### async / await
-
 ## ECMA-262 2017 (ES 8)
 
-준비중
+### async / await
