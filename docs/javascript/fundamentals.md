@@ -318,11 +318,61 @@ console.log(fruits[0].name); // fofana
 
 ### Imports and Exports
 
+Importing (es6)
+
+```js
+// import the default export
+import React from 'react';
+
+// import other named exports
+import React, { Component } from 'react';
+```
+
+Importing (CommonJS)
+
+```js
+// import the default export
+const React = require('react');
+const { Component } = require('react');
+```
+
+Exporting (es6)
+
+```js
+export default React;
+export { Component };
+```
+
+Exporting (CommonJS)
+
+```js
+module.exports.default = React
+module.exports.Component = Component
+```
+
 ### Default Parameters
 
-### Classes
+함수의 인자에 default value를 assign할 수 있습니다.
+
+```js
+const printAnimal = (animal = 'cat') => {
+  console.log(animal);
+};
+printAnimal(); // cat
+printAnimal('dog'); // dog
+```
 
 ### Dynamic Object Keys
+
+```js
+const chosenAnimal = 'cat';
+const animals = {
+  [`${chosenAnimal}TheAnimal`]: true,
+};
+console.log(animals.catTheAnimal); // true
+```
+
+### Classes
 
 ### Promise
 
