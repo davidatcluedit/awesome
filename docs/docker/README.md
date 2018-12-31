@@ -19,17 +19,82 @@ Docker를 사용하면 코드를 더 빨리 전달하고, 애플리케이션 운
 ### Dockerfile 작성하기
 
 ::: tip
-더 자세한 명령어의 사용법은 [공식문서](https://docs.docker.com/engine/reference/builder/)에서 확인하세요!
+더 자세한 instruction의 사용법은 [공식문서](https://docs.docker.com/engine/reference/builder/)에서 확인하세요!
+:::
+
+Dockerfile의 기본적인 format입니다.
+
+```Dockerfile
+# Comment
+INSTRUCTION arguments
+```
+
+먼저, Dockerfile을 만들어봅시다.
+
+```bash
+touch ./Dockerfile
+# 또는
+vi ./Dockerfile
+```
+
+#### FROM
+
+FROM instruction을 이용해, 컨테이너의 base가 될 image를 선택합니다.
+
+```Dockerfile
+# Dockerfile
+FROM <image>[:<tag>] [AS <name>]
+# 또는
+FROM <image>[@<digest>] [AS <name>]
+```
+
+#### WORKDIR
+
+Dockerfile에 작성한 instruction을 실행할 경로를 입력합니다.
+
+::: tip
+**RUN cd path**로 경로를 변경하더라도,
+다음 instruction을 실행하는 시점에 경로가 초기화되므로 반드시 작성해야합니다.
 :::
 
 ```Dockerfile
+# Dockerfile
+WORKDIR <path>
+```
+
+#### COPY
+
+파일이나 디렉토리를 도커 컨테이너로 복사합니다.
+
+```Dockerfile
+# Dockerfile
+COPY [--chown=<user>:<group>] <src>... <dest>
+# 만약 경로에 whitespace가 포함되어 있다면, 이러한 형태로 작성해야합니다.
+COPY [--chown=<user>:<group>] ["<src>",... "<dest>"]
+```
+
+#### ADD
+
+COPY와 비슷하지만, url 경로를 입력해서 파일을 가져오는 것이 가능하고,
+압축 파일인 경우, 압축을 해제해 도커 컨테이너 내부로 복사합니다.
+
+```Dockerfile
+# Dockerfile
+ADD [--chown=<user>:<group>] <src>... <dest>
+# 만약 경로에 whitespace가 포함되어 있다면, 이러한 형태로 작성해야합니다.
+ADD [--chown=<user>:<group>] ["<src>",... "<dest>"]
+```
+
+```Dockerfile
+# Dockerfile
+
 # 도커 컨테이너의 base가 될 이미지를 선택합니다.
 FROM <image>[:<tag>] [AS <name>]
 FROM <image>[@<digest>] [AS <name>]
 
-# Dockerfile에 작성한 명령어를 실행할 경로를 입력합니다.
+# Dockerfile에 작성한 instruction을 실행할 경로를 입력합니다.
 # RUN cd <path> 커맨드를 사용해 경로를 변경하더라도,
-# 다음 명령어를 실행하는 시점에 경로가 초기화되므로 반드시 작성해야합니다.
+# 다음 instruction을 실행하는 시점에 경로가 초기화되므로 반드시 작성해야합니다.
 WORKDIR <path>
 
 # 파일이나 디렉토리를 도커 컨테이너로 복사합니다.
@@ -37,7 +102,7 @@ COPY [--chown=<user>:<group>] <src>... <dest>
 # 만약 경로에 whitespace가 포함되어 있다면, 이러한 형태로 작성해야합니다.
 COPY [--chown=<user>:<group>] ["<src>",... "<dest>"]
 
-# COPY 명령어와 비슷하지만, url 경로를 입력해서 파일을 가져오는 것이 가능하고,
+# COPY와 비슷하지만, url 경로를 입력해서 파일을 가져오는 것이 가능하고,
 # 압축 파일인 경우, 압축을 해제해 도커 컨테이너 내부로 복사합니다.
 ADD [--chown=<user>:<group>] <src>... <dest>
 # 만약 경로에 whitespace가 포함되어 있다면, 이러한 형태로 작성해야합니다.
@@ -58,16 +123,41 @@ EXPOSE <port> [<port>...]
 #
 VOLUME <path> [<path>...]
 
-# ENV 값을 설정하는 커맨드입니다.
+# ENV 값을 설정하는 instruction입니다.
 ENV <key> <value>
 ENV <key>=<value>
 ```
 
-### ENV 값의 활용 예제
+### ARG instruction 활용법
 
-ENV 커맨드를 사용해서, 값을 정해두고, ${key}로 값을 사용할 수 있습니다!
+```bash
+docker build --build-arg <varname>=<value>
+```
 
 ```Dockerfile
+# Dockerfile
+
+ARG <name>[=<default value>]
+```
+
+예제
+
+```Dockerfile
+# Dockerfile
+
+ARG VERSION=latest
+FROM busybox:$VERSION
+ARG VERSION
+RUN echo $VERSION > image_version
+```
+
+### ENV 값의 활용 예제
+
+ENV instruction을 사용해서, 값을 정해두고, ${key}로 값을 사용할 수 있습니다!
+
+```Dockerfile
+# Dockerfile
+
 FROM busybox
 ENV foo /bar
 WORKDIR ${foo}   # WORKDIR /bar
@@ -99,9 +189,11 @@ docker build -t shykes/myapp:1.0.2 -t shykes/myapp:latest .
 
 ## .dockerignore
 
-.gitignore를 사용할 때처럼, Dockerfile에서 COPY, ADD 커맨드를 사용할 때, 특정 파일이나 디렉토리를 무시할 수 있습니다. 아래는 .dockerignore의 예제입니다.
+.gitignore를 사용할 때처럼, Dockerfile에서 COPY, ADD instruction을 사용할 때, 특정 파일이나 디렉토리를 무시할 수 있습니다. 아래는 .dockerignore의 예제입니다.
 
 ```.dockerignore
+# .dockerignore
+
 # comment
 */temp*
 */*/temp*

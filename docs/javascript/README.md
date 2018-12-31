@@ -2,7 +2,13 @@
 
 ## Javascript Fundamentals
 
-[Javascript Fundamentals](/javascript/fundamentals.html)
+[ECMAScript 혹은 ES](https://en.wikipedia.org/wiki/ECMAScript)는 Ecma International 표준화 기구에 의해서 [ECMA-262](https://tc39.github.io/ecma262/) 및 [ECMA-402](https://tc39.github.io/ecma402/) 스펙에 표준화되었습니다. ES는 javascript의 기반이 되는 script programming language입니다. javascript는 이 ECMAScript와의 호환을 목표로 하면서, 발전하고 있습니다.
+
+::: tip
+**JavaScript에 대해서 더 자세한 내용을 알아보려면 아래 링크로 이동하세요!**
+:::
+
+[JavaScript Fundamentals!](/javascript/fundamentals.html)
 
 ## Webpack
 
