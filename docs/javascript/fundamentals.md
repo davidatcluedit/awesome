@@ -295,6 +295,27 @@ this.items.map(x => this.doSomethingWith(x));
 
 ### Destructuring, Array Spread
 
+비구조화 및 배열 전개 연산자의 예제입니다.
+
+```js
+const arr = ['one!', 'two!', 'three!', 'four!'];
+const [one, two, ...rest] = arr; // 배열을 비구조화 전개 연산자를 이용해, 나머지 요소를 배열로 합칠 수 있습니다.
+
+const obj = { a: 'x', b: 'y', c: 'z'};
+const { a, b, c } = obj;
+```
+
+```js
+const animals = ['cat', 'dog', 'moose'];
+const newAnimals = [...animals];
+const lotsOfAnimals = [...animals, 'bear', 'mouse', 'donkey'];
+const fruits = [{ name: 'banana', color: 'yellow' }, { name: 'apple', color: 'red' }];
+const newFruits = [...fruits];
+console.log(fruits[0] === newFruits[0]); // true
+newFruits[0].name = 'fofana';
+console.log(fruits[0].name); // fofana
+```
+
 ### Imports and Exports
 
 ### Default Parameters
