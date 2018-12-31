@@ -619,8 +619,4 @@ module.exports = {
 }
 ```
 
-## Webpack과 SPA 그리고 SSR
-
-이제 Javascript만으로 웹 어플리케이션을 제작하는 것이 굉장히 보편화되었고,
-
 ## SourceMap 자세히 알아보기

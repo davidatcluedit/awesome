@@ -6,8 +6,8 @@ actionLink: /javascript/
 features:
 - title: Javascript
   details: Javascript. Webpack. ESLint.
-- title: Typescript
-  details: Typescript.
+# - title: Typescript
+#   details: Typescript.
 - title: Python
   details: Python.
 - title: DevOps

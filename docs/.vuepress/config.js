@@ -5,7 +5,7 @@ module.exports = {
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Javascirpt', link: '/javascript/' },
-      { text: 'Typescript', link: '/typescript/' },
+      // { text: 'Typescript', link: '/typescript/' },
       { text: 'Docker', link: '/docker/' },
       { text: 'Wiki', link: 'https://github.com/cluedit/cluedit.github.io/wiki' },
       { text: 'Github', link: 'https://github.com/cluedit' },

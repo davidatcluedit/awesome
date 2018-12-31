@@ -1,8 +1,16 @@
 # Javascript Fundamentals
 
-## JavaScript의 기반
+JavaScript는 [동적 프로그래밍 언어](https://developer.mozilla.org/en-US/docs/Glossary/Dynamic_programming_language), 객체 기반의 스크립트 프로그래밍 언어입니다. 주로 웹 브라우저 또는 [node.js](https://nodejs.org/)와 같은 런타임 환경에서 사용하고 있습니다.
+[ECMAScript (혹은 ES)](https://en.wikipedia.org/wiki/ECMAScript)에 대한 [ECMA-262](https://tc39.github.io/ecma262/)을 표준으로 합니다.
 
-[ECMAScript 혹은 ES](https://en.wikipedia.org/wiki/ECMAScript)는 Ecma International 표준화 기구에 의해서 [ECMA-262](https://tc39.github.io/ecma262/) 및 [ECMA-402](https://tc39.github.io/ecma402/) 스펙에 표준화되었습니다. ES는 javascript의 기반이 되는 script programming language입니다. javascript는 이 ECMAScript와의 호환을 목표로 하면서, 발전하고 있습니다.
+[ECMAScript (혹은 ES)](https://en.wikipedia.org/wiki/ECMAScript)는 javascript의 기반이 되는 script programming language이며, Ecma International 표준화 기구에 의해서 [ECMA-262](https://tc39.github.io/ecma262/) 및 [ECMA-402](https://tc39.github.io/ecma402/) 스펙에 표준화되었습니다. [ECMAScript (혹은 ES)](https://en.wikipedia.org/wiki/ECMAScript)는 쉽게 말해서 자바스크립트의 표준화된 버전입니다! javascript는 이 ECMAScript와의 호환을 목표로 하면서, 발전하고 있습니다.
+
+:::warning
+**ECMAScript는 스펙이며, JavaScript는 언어다?**
+
+JavaScript의 표준화된 버전이 ECMAScript이며, **둘 모두 script programming language입니다.**
+ECMAScript의 표준(또는 스펙)이 [ECMA-262](https://tc39.github.io/ecma262/) 및 [ECMA-402](https://tc39.github.io/ecma402/)입니다.
+:::
 
 ## ECMA-262 (ES 5)
 
@@ -164,7 +172,24 @@ apply와 call의 유일한 차이점은 인자를 Array로 전달하느냐 아�
 
 ### Function.prototype.bind()
 
-특정 this context가 바인딩된 새로운 함수를 반환하는 함수입니다.
+**특정 this context가 바인딩된 새로운 함수를 반환하는 함수입니다.** JavaScript는 손쉽게, 바인딩되어 있는 this context를 잃어버릴 수 있는데, 예제를 통해서 확인해봅시다!
+
+```js
+const person = {
+  name: "John Doe",
+  getName: function() {
+    return this.name;
+  }
+};
+
+console.log(person.getName()); // John Doe
+
+const unboundGetName = person.getName;
+console.log(unboundGetName); // udefined
+
+const boundGetName = unboundGetName.bind(person);
+console.log(boundGetName); // John Doe
+```
 
 ## ECMA-262 (ES 5.1)
 
