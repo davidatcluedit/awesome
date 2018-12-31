@@ -150,6 +150,11 @@ module.exports = {
 
 ::: tip
 *[hash]와 [chunkhash]의 차이가 무엇인가요?*
+
+filename에 [hash]를 사용하게되면 모든 chunk들이 webpack build로 부여되는 하나의 hash 값을 받게되지만,
+[chunkhash]를 사용하게되면, 각각의 chunk들이 고유한 hash 값을 받게됩니다.
+
+ExtractTextPlugin으로 생성되는 css파일 같은 chunk에 포함되지않는 파일의 경우에는 [contenthash]를 사용해야합니다.
 :::
 
 이제 번들링한 파일들을 불러줄 html 파일을 만들도록 하겠습니다.
