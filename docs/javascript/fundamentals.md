@@ -386,8 +386,10 @@ console.log(animals.catTheAnimal); // true
 
 ### Bound Instance Methods
 
-### Object Spread
-
 ## ECMA-262 2017 (ES 8)
 
 ### async / await
+
+## ECMAScript 2018
+
+### Object Spread
