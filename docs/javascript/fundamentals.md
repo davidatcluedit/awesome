@@ -282,15 +282,22 @@ const arrowFunction = (...arguments) => { /* ... */ };
 위와 같은 형태로 활용합니다.
 
 ```js
-// this keyword의 활용 예.
-const items = [1, 2, 3];
+// this 바인딩 예제
 
-const doSomethingWith = x => {
-  return x + 1
-};
+function testFunction(callback) {
+  callback('sample data');
+}
+
+// ES5
+var foo = this;
+testFunction(function(data) {
+  foo.data = data;
+});
 
 // Arrow Function 밖의 this가 자동으로 바인딩되어 Arrow Function 안의 this가 됩니다!
-this.items.map(x => this.doSomethingWith(x));
+testFunction(data => {
+  this.data = data;
+});
 ```
 
 ### Destructuring, Array Spread
