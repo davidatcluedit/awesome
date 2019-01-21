@@ -381,13 +381,85 @@ console.log(animals.catTheAnimal); // true
 
 ### Classes
 
-### Static Class Properties
+#### Class syntax
+
+es6부터는 class syntax를 사용할 수 있습니다.
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+  static test() {
+    console.log('test');
+  }
+  printName() {
+    console.log(this.name);
+  }
+}
+
+Person.test();
+
+const programmer = new Person('John');
+programmer.printName();
+```
+
+#### Inheritance
+
+extends 키워드를 이용해서, class를 상속 받을 수 있습니다.
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+  static test() {
+    console.log('test');
+  }
+  printName() {
+    console.log(this.name);
+  }
+}
+
+class Programmer extends Person {
+  constructor(name) {
+    super(name);
+    this.job = 'Programmer';
+  }
+  printName() {
+    super.printName();
+    console.log(this.job);
+  }
+}
+
+const john = new Programmer('John');
+john.printName();
+```
 
 ### Promise
 
 ### Generator
 
 ## ECMA-262 2016 (ES 7)
+
+### Static Class Properties
+
+es6에서도 클래스에 static 함수는 사용할 수 있었지만, es7부터는 함수 뿐만 아니라 static properties도 사용할 수 있습니다!
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  static legCount = 2;
+  static handCount = 2;
+
+  printName() {
+    console.log(this.name);
+  }
+}
+```
 
 ### Class Instance Properties
 
