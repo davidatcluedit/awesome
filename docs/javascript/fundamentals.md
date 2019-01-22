@@ -463,6 +463,24 @@ class Person {
 
 ### Class Instance Properties
 
+```js
+class Programmer {
+  constructor(name) {
+    this.name = name;
+    this.job = 'Programmer';
+    this.state = { burnout: true };
+  }
+}
+
+class Programmer {
+  job = 'Programmer';
+  state = { burnout: true };
+  constructor(name) {
+    this.name = name;
+  }
+}
+```
+
 ### Bound Instance Methods
 
 ## ECMA-262 2017 (ES 8)
