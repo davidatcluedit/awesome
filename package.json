@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "start": "cd docs && vuepress dev",
     "docs:build": "vuepress build docs"
   },
   "keywords": [],

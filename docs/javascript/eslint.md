@@ -64,10 +64,14 @@ eslint-config-airbnb@latest eslint@^4.19.1 || ^5.3.0 eslint-plugin-import@^2.14.
 module.exports = {
   "extends": [
     "airbnb", // Airbnb style guide를 상속 받습니다.
-    "prettier" // Prettier style guide를 상속 받습니다.
   ],
   "parser": "babel-eslint",
-  "plugins": ["jest"],
+  "plugins": [
+    "prettier",
+    "react",
+    // "react-native",
+    "jest"
+  ],
   "env": {
     "browser": true, // window나, document등의 객체를 eslint가 인식할 수 있도록 환경을 설정합니다.
     "jest/globals": true // jest를 활용한 테스트 코드에서 각종 jest global variable들을 eslint가 인식할 수 있도록 도와주는 설정입니다.
@@ -77,8 +81,8 @@ module.exports = {
     "semi": [2, "never"],
     "arrow-parens": [2, "as-needed"],
     "comma-dangle": ["error", {
-      "arrays": "only-multiline",
-      "objects": "only-multiline",
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
       "imports": "never",
       "exports": "never",
       "functions": "ignore"

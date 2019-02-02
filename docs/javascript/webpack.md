@@ -9,10 +9,6 @@ webpack 4.20.2를 기준으로 작성되었습니다.
 [node.js](https://nodejs.org/)의 등장으로 실질적인 모듈화가 가능해지면서,
 [npm](https://www.npmjs.com/), [yarn](https://yarnpkg.com/)과 같은 package manager들과 함께 Javascript도 새로운 시대를 맞이하게 되었습니다.
 
-::: warning
-(CommonJS, AMD에 관련된 내용도 추후에 작성하겠습니다.)
-:::
-
 하지만, [node.js](https://nodejs.org/) 환경이 아닌 [웹 브라우저(Web Browser)](https://ko.wikipedia.org/wiki/%EC%9B%B9_%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80) 환경에서 파일 단위의 모듈(module)을 사용하는 일은 여전히 쉬운 일이 아닙니다. [node.js](https://nodejs.org/) 환경에서 제작한 [Web application](https://en.wikipedia.org/wiki/Web_application)을 [웹 브라우저(Web Browser)](https://ko.wikipedia.org/wiki/%EC%9B%B9_%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80) 환경의 사용자들에게 배포하기 위해 의존성을 갖는 모듈들을 [즉시 실행 함수 표현(IIFE)](https://developer.mozilla.org/docs/Glossary/IIFE)로 변경해 주면서 하나의 파일로 묶어주는 과정(bundling)은 필수적이고, 이 과정을 쉽게 처리해주는 도구가 바로 [Webpack](https://webpack.js.org/)입니다.
 
 ## [Webpack](https://webpack.js.org/) 시작하기
@@ -34,16 +30,16 @@ npm init -y
 
 이번 예제의 디렉토리 전체 구조는 아래와 같은 모양으로 이루어질 예정이므로 참고 바랍니다.
 
-```dir
+::: vue
 .
 ├── src
 │   └── index.js
 ├── build
 │   ├── index.html
-│   └── webpack.config.js
+│   └── `webpack.config.js` _(**webpack 설정**)_
 ├── package.json
-└── .babelrc
-```
+└── `.babelrc` _(**babel 설정**)_
+:::
 
 ### [Webpack](https://webpack.js.org/) 설치하기
 

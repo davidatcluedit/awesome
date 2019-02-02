@@ -42,6 +42,8 @@ eslint는 javascript에서 사용할 수 있는 Linter입니다.
 
 [Eslint 문서로 이동하기!](/javascript/eslint.html)
 
-## React
+## Babel
 
-[React 문서로 이동하기!](/javascript/react.html)
+![Babel Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Babel_Logo.svg/500px-Babel_Logo.svg.png "Babel Logo")
+
+[Babel 문서로 이동하기!](/javascript/babel.html)
