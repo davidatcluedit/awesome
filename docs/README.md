@@ -5,12 +5,12 @@ actionText: 시작하기 →
 actionLink: /javascript/
 features:
 - title: Javascript
-  details: Javascript. Webpack. ESLint.
-# - title: Typescript
-#   details: Typescript.
+  details: Javascript. Webpack. Babel. ESLint. flowtypes.
+- title: Typescript
+  details: Typescript.
 - title: Python
-  details: Python.
+  details: Python. numpy. Machine Learning, Deep Learning.
 - title: DevOps
-  details: DevOps. Docker. Serverless.
-footer: MIT Licensed | Copyright © 2019-present
+  details: DevOps. Docker. Serverless. CI / CD.
+footer: MIT Licensed | Copyright © 2018-present
 ---
