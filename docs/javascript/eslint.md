@@ -73,10 +73,12 @@ module.exports = {
     "jest"
   ],
   "env": {
+    // "node": true,
     "browser": true, // window나, document등의 객체를 eslint가 인식할 수 있도록 환경을 설정합니다.
     "jest/globals": true // jest를 활용한 테스트 코드에서 각종 jest global variable들을 eslint가 인식할 수 있도록 도와주는 설정입니다.
   },
   "rules": {
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "indent": ["error", 2],
     "semi": [2, "never"],
     "arrow-parens": [2, "as-needed"],

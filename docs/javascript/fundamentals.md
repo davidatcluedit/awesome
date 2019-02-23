@@ -195,6 +195,56 @@ console.log(boundGetName()); // John Doe
 
 ### "use strict"; strict mode, 엄격 모드 알아보기
 
+#### Strict Mode에서 허용되지 않는 것들
+
+선언 없이, 변수를 사용할 수 없습니다.
+
+```js
+'use strict';
+a = 'a';
+obj = { x: 1, y: 2 };
+```
+
+변수나 함수는 삭제할 수 없습니다.
+prototype도 삭제할 수 없습니다.
+
+```js
+'use strict';
+delete Object.prototype;
+```
+
+eval 함수를 사용할 수 없습니다.
+
+with를 사용할 수 없습니다.
+
+object에 read-only property, get-only property를 넣을 수 없습니다.
+
+```js
+'use strict';
+var obj = {};
+Object.defineProperty(obj, 'x', { value: 0, writable: false });
+obj.x = 'x';
+
+var obj = { get x() { return 0; } };
+obj.x = 1;
+```
+
+아래의 키워드들은 변수명으로 사용할 수 없습니다.
+
+implements
+interface
+let
+package
+private
+protected
+public
+static
+yield
+arguments
+eval
+
+Octal numeric literals, Octal escape characters를 사용할 수 없습니다.
+
 ## ECMA-262 2015 (ES 6)
 
 ### Template Strings
@@ -320,7 +370,7 @@ const fruits = [{ name: 'banana', color: 'yellow' }, { name: 'apple', color: 're
 const newFruits = [...fruits];
 console.log(fruits[0] === newFruits[0]); // true
 newFruits[0].name = 'fofana';
-console.log(fruits[0].name); // fofana
+console.log(fruits[0].name); // banana
 ```
 
 ### Imports and Exports
@@ -483,10 +533,79 @@ class Programmer {
 
 ### Bound Instance Methods
 
+일반적으로 javascript에서는 객체가 property로 가지고 있는 함수를 다른 곳에 할당하게되면 this context를 잃어버립니다.
+Bound Instance Methods는 this를 따로 바인드하지 않아도 자동으로 this가 바인딩됩니다.
+
+```js
+class Programmer {
+  constructor(name) {
+    this.name = name
+    this.printName1.bind(this)
+  }
+
+  printName1() {
+    console.log(this.name)
+  }
+
+  printName2 = () => {
+    console.log(this.name)
+  }
+}
+
+const kim = new Programmer('kim')
+const printName1 = cat.printName1
+const printName2 = cat.printName2
+printName1()
+printName2()
+```
+
 ## ECMA-262 2017 (ES 8)
 
 ### async / await
 
-## ECMAScript 2018
+async function 선언은 AsyncFunction객체를 반환하는 하나의 비동기 함수를 정의합니다. 비동기 함수는 이벤트 루프를 통해 비동기적으로 작동하는 함수로, 암시적으로 Promise를 사용하여 결과를 반환합니다. 그러나 비동기 함수를 사용하는 코드의 구문과 구조는, 표준 동기 함수를 사용하는 것과 많이 비슷합니다.
+
+```js
+function resolveAfter2Seconds() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('resolved');
+    }, 2000);
+  });
+}
+
+async function asyncCall() {
+  console.log('calling');
+  var result = await resolveAfter2Seconds();
+  console.log(result);
+  // expected output: 'resolved'
+}
+
+asyncCall();
+```
+
+[출처](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/async_function)
+
+## ECMAScript 2018 (ES 9)
 
 ### Object Spread
+
+이제 array 뿐만 아니라, object도 전개 연산자를 사용할 수 있습니다!
+이는 object의 특정 프로퍼티들을 수정하거나, 다른 object와 병합 (merge)할 때 매우 유용합니다!
+
+```js
+const a = {
+  version: 1,
+  b: 'b',
+  c: 'c',
+}
+
+const d = {
+  ...a,
+  version: 2,
+  e: 'e',
+}
+
+// ES 9 이전의 방식
+const f = Object.assign(a, { version: 2, e: 'e' })
+```

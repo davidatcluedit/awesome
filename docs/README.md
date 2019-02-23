@@ -12,5 +12,5 @@ features:
   details: Python.
 - title: DevOps
   details: DevOps. Docker. Serverless.
-footer: MIT Licensed | Copyright © 2018-present
+footer: MIT Licensed | Copyright © 2019-present
 ---
