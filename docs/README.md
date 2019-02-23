@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /images/hero.jpg
+heroImage: /images/hero.png
 actionText: 시작하기 →
 actionLink: /javascript/
 features:
