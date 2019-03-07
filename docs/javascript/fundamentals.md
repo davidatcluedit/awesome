@@ -16,7 +16,7 @@ ECMAScript의 표준(또는 스펙)이 [ECMA-262](https://tc39.github.io/ecma262
 
 ### Creation Phase와 Execution Phase 그리고 Hoisting
 
-### Global Object,Call Stack
+### Global Object, Call Stack
 
 ### Closure, Scope Chain
 
