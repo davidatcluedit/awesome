@@ -12,11 +12,19 @@ JavaScript의 표준화된 버전이 ECMAScript이며, **둘 모두 script progr
 ECMAScript의 표준(또는 스펙)이 [ECMA-262](https://tc39.github.io/ecma262/) 및 [ECMA-402](https://tc39.github.io/ecma402/)입니다.
 :::
 
+## Javascript 이해하기
+
+### Creation Phase와 Execution Phase 그리고 Hoisting
+
+### Global Object,Call Stack
+
+### Closure, Scope Chain
+
 ## ECMA-262 (ES 5)
 
 ### new keyword, prototype 이해하기
 
-prototype을 알아보기 전, 먼저 Object Constructor(또는 Object Constructor Function)을 작성하겠습니다.
+prototype을 알아보기 전, 먼저 Object Constructor (또는 Object Constructor Function)을 작성하겠습니다.
 (Object Constructor로 사용할 함수이므로, this instanceof Person이 true인 경우에만 사용할 수 있도록 로직을 작성합니다!)
 
 :::tip
@@ -52,7 +60,7 @@ console.log(person.firstName); // John
 console.log(person.lastName); // Doe
 ```
 
-Object Constructor를 작성했으니, 여기에 새로운 prototype을 넣어봅시다.
+Object Constructor를 작성했으니, 여기에 새로운 prototype을 넣어봅시다.
 
 ```js
 // es 5
@@ -492,6 +500,10 @@ john.printName();
 
 ## ECMA-262 2016 (ES 7)
 
+### Array.prototype.includes
+
+### Exponentiation operator
+
 ### Static Class Properties
 
 es6에서도 클래스에 static 함수는 사용할 수 있었지만, es7부터는 함수 뿐만 아니라 static properties도 사용할 수 있습니다!
@@ -561,6 +573,14 @@ printName2()
 
 ## ECMA-262 2017 (ES 8)
 
+### Object.values/Object.entries
+
+### String padding
+
+### Object.getOwnPropertyDescriptors
+
+### Trailing commas in function parameter lists and calls
+
 ### async / await
 
 async function 선언은 AsyncFunction객체를 반환하는 하나의 비동기 함수를 정의합니다. 비동기 함수는 이벤트 루프를 통해 비동기적으로 작동하는 함수로, 암시적으로 Promise를 사용하여 결과를 반환합니다. 그러나 비동기 함수를 사용하는 코드의 구문과 구조는, 표준 동기 함수를 사용하는 것과 많이 비슷합니다.
@@ -586,7 +606,15 @@ asyncCall();
 
 [출처](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/async_function)
 
-## ECMAScript 2018 (ES 9)
+## ECMA-262 2018 (ES 9)
+
+### Lifting template literal restriction
+
+### Promise.prototype.finally
+
+### Rest Properties
+
+### Asynchronous Iteration
 
 ### Object Spread
 
@@ -609,3 +637,20 @@ const d = {
 // ES 9 이전의 방식
 const f = Object.assign(a, { version: 2, e: 'e' })
 ```
+## ECMA-262 2019 (ES10)
+
+### Optional catch binding
+
+### JSON superset
+
+### Symbol.prototype.description
+
+### Function.prototype.toString revision
+
+### Object.fromEntries
+
+### Well-formed JSON.stringify
+
+### String.prototype.{trimStart,trimEnd}
+
+### Array.prototype.{flat,flatMap}
