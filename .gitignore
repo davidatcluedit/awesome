@@ -4,9 +4,9 @@ node_modules
 
 # JetBrains IDE config
 .idea
-.editorconfig
 
 # VS code IDE config
 \.vscode/settings\.json
 
+# mac
 \.DS_Store

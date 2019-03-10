@@ -2,7 +2,6 @@
   "name": "scratch",
   "version": "1.0.0",
   "description": "docs",
-  "private": true,
   "directories": {
     "doc": "docs"
   },
@@ -12,5 +11,10 @@
   },
   "keywords": [],
   "author": "sg kim <qtudio@gmail.com> (https://github.com/cluedit)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "markdownlint-cli": "^0.14.0",
+    "vuepress": "^0.14.10",
+    "webpack-dev-middleware": "^3.6.0"
+  }
 }

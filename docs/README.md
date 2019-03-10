@@ -11,6 +11,6 @@ features:
 - title: Python
   details: Python. numpy. Machine Learning, Deep Learning.
 - title: DevOps
-  details: DevOps. Docker. Serverless. CI / CD.
+  details: DevOps. Docker. Kubernetes. Serverless. CI / CD.
 footer: MIT Licensed | Copyright © 2018-present
 ---

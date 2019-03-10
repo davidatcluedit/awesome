@@ -637,6 +637,7 @@ const d = {
 // ES 9 이전의 방식
 const f = Object.assign(a, { version: 2, e: 'e' })
 ```
+
 ## ECMA-262 2019 (ES10)
 
 ### Optional catch binding
