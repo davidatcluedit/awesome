@@ -1,4 +1,4 @@
-# Typescript
+# Typescript 시작하기
 
 ## Typescript란 무엇인가요
 
@@ -9,8 +9,7 @@
 
 ## Javascript와 Typescript의 차이 미리보기
 
-```warning
-```
+간단한 예제를 통해서, 타입을 알아봅시다.
 
 ```js
 // 스트링(string) 인자(argument)를 받으면,
@@ -47,4 +46,4 @@ console.log(splitString(oneTwoThreeFour));
 // [ 1, 2, 3, 4 ]
 ```
 
-## 왜 Typescript를 사용해야 할까요
+## 왜 Typescript를 사용해야 할까요?

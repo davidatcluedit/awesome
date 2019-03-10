@@ -13,6 +13,7 @@
   "author": "sg kim <qtudio@gmail.com> (https://github.com/cluedit)",
   "license": "MIT",
   "devDependencies": {
+    "markdown-it-task-lists": "^2.1.1",
     "markdownlint-cli": "^0.14.0",
     "vuepress": "^0.14.10",
     "webpack-dev-middleware": "^3.6.0"
