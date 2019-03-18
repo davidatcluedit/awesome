@@ -1,6 +1,10 @@
 module.exports = {
   title: 'Scratch',
   description: 'From Scratch',
+  head: [
+    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.6.0/dist/katex.min.css' }],
+    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css' }]
+  ],
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
@@ -21,8 +25,15 @@ module.exports = {
     },
   },
   markdown: {
-    extendMarkdown: md => {
+    // options for markdown-it-anchor
+    anchor: { permalink: true },
+    // options for markdown-it-toc
+    toc: { includeLevel: [1, 2, 3, 4] },
+    config: md => {
+      md.set({ html: true })
       md.use(require('markdown-it-task-lists'))
+      md.use(require('markdown-it-katex'))
+      md.use(require('markdown-it-mermaid').default)
     },
   },
 }
