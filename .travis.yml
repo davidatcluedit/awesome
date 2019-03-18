@@ -21,4 +21,4 @@ jobs:
         - npm run docs:build
     - stage: deploy
       script:
-        - source ../../deploy.sh
+        - cd ~ && source ./deploy.sh
