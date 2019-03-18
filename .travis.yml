@@ -19,7 +19,6 @@ jobs:
     - stage: build
       script:
         - npm run docs:build
-    # TODO: ssh key
-    # - stage: deploy
-    #   script:
-    #     - ./deploy.sh
+    - stage: deploy
+      script:
+        - source ./deploy.sh
